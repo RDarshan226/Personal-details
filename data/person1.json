@@ -325,20 +325,7 @@
         "Active"
       ]
     ],
-    "assets": [
-      [
-        "Property",
-        "Property Documents",
-        "",
-        "Active"
-      ],
-      [
-        "Vehicle",
-        "Vehicle Documents",
-        "",
-        "Active"
-      ]
-    ],
+    "assets": [],
     "contacts": []
   }
 }
