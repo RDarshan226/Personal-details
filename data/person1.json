@@ -339,25 +339,6 @@
         "Active"
       ]
     ],
-    "contacts": [
-      [
-        "Primary Family Contact",
-        "Family",
-        "Phone / relationship reference",
-        "Available"
-      ],
-      [
-        "Banking Contact",
-        "Banking",
-        "Customer-care / branch reference",
-        "Available"
-      ],
-      [
-        "Insurance Contact",
-        "Insurance",
-        "Claims-contact reference",
-        "Available"
-      ]
-    ]
+    "contacts": []
   }
 }
