@@ -14,13 +14,13 @@
 </style>
 </head>
 <body>
-<div id="splash" class="splash"><div class="splashbox"><img class="splashicon" src="icon.svg" alt=""><div class="splashname">PERSONAL DETAILS VAULT</div><div class="splashver">VERSION v43</div></div></div>
+<div id="splash" class="splash"><div class="splashbox"><img class="splashicon" src="icon.svg" alt=""><div class="splashname">PERSONAL DETAILS VAULT</div><div class="splashver">VERSION v44</div></div></div>
 <div id="app" class="app">
 <header><div class="brand"><div class="logo">⌂</div><div><h1>PERSONAL DETAILS VAULT</h1><div class="sub">Separate personal datasets • integrated viewer</div></div></div><div class="updated">● Data source: separate GitHub files</div></header>
 <div id="people" class="people"></div>
 <div id="home"><div class="toolbar"><input id="search" class="search" placeholder="Search categories or institutions…"><button id="editMode" class="btn">✎ Edit / Data Entry</button></div><div id="grid" class="grid"></div></div>
 <section id="view" class="view"><div class="viewhead"><button id="back" class="back">‹ Back</button><h2 id="title"></h2></div><div id="list" class="list"></div></section>
-<footer>Personal Details Vault • Separate dataset per person<div class="version">v43</div></footer>
+<footer>Personal Details Vault • Separate dataset per person<div class="version">v44</div></footer>
 </div>
 
 <div id="tokenModal" class="modal"><div class="box"><h3>Enable Edit / Data Entry</h3><div class="notice">Enter a GitHub token with permission to update this repository. It is kept only in memory for this session and is never saved to the device.</div><div class="field"><label>GitHub token</label><input id="token" type="password" autocomplete="off" placeholder="github_pat_…"></div><div id="tokenStatus" class="status"></div><div class="modalActions"><button class="btn" id="tokenCancel">Cancel</button><button class="btn" id="tokenEnable">Enable</button></div></div></div>
@@ -28,7 +28,7 @@
 <div id="recordModal" class="modal"><div class="box"><h3 id="recordHeading">Add record</h3><div class="notice" id="recordScope"></div><div class="field"><label>Name / Institution</label><input id="f0"></div><div class="field"><label>Type / Product</label><input id="f1"></div><div class="field"><label>Information</label><textarea id="f2"></textarea></div><div class="field"><label>Status / Other</label><input id="f3" value="Active"></div><div class="modalActions"><button class="btn" id="recordCancel">Cancel</button><button class="btn" id="recordSave">Save to this person's file</button></div><div id="recordStatus" class="status"></div></div></div>
 
 <script>
-const APP_VERSION='v43';
+const APP_VERSION='v44';
 const REPO='RDarshan226/Personal-details';
 const BRANCH='main';
 const DATA_FILES={darshan:'data/person1.json',krithic:'data/person2.json'};
@@ -54,7 +54,7 @@ async function savePerson(){const path=DATA_FILES[activePerson];const current=aw
 function requireEdit(){if(editEnabled)return true;document.getElementById('tokenStatus').textContent='';document.getElementById('token').value='';document.getElementById('tokenModal').classList.add('show');return false}
 document.getElementById('editMode').onclick=()=>{if(editEnabled){editEnabled=false;renderHome();if(document.getElementById('view').style.display==='block')openCat(editCategory);return}document.getElementById('tokenModal').classList.add('show')};
 document.getElementById('tokenCancel').onclick=()=>document.getElementById('tokenModal').classList.remove('show');
-document.getElementById('tokenEnable').onclick=async()=>{const t=document.getElementById('token').value.trim();if(!t){document.getElementById('tokenStatus').textContent='Token required';return}githubToken=t;document.getElementById('tokenStatus').textContent='Checking GitHub access…';try{await githubRequest(DATA_FILES[activePerson],'GET');editEnabled=true;document.getElementById('tokenModal').classList.remove('show');if(document.getElementById('view').style.display==='block')openCat(editCategory);else renderHome()}catch(e){githubToken='';document.getElementById('tokenStatus').textContent=e.message||'GitHub access failed'}}};
+document.getElementById('tokenEnable').onclick=async()=>{const t=document.getElementById('token').value.trim();if(!t){document.getElementById('tokenStatus').textContent='Token required';return}githubToken=t;document.getElementById('tokenStatus').textContent='Checking GitHub access…';try{await githubRequest(DATA_FILES[activePerson],'GET');editEnabled=true;document.getElementById('tokenModal').classList.remove('show');if(document.getElementById('view').style.display==='block')openCat(editCategory);else renderHome()}catch(e){githubToken='';document.getElementById('tokenStatus').textContent=e.message||'GitHub access failed'}};
 
 function addRecord(){if(!requireEdit())return;editIndex=-1;document.getElementById('recordHeading').textContent='Add record';document.getElementById('recordScope').textContent=people[activePerson].person+' → '+categories.find(c=>c.id===editCategory).name+' → '+DATA_FILES[activePerson];['f0','f1','f2','f3'].forEach((x,i)=>document.getElementById(x).value=i===3?'Active':'');document.getElementById('recordStatus').textContent='';document.getElementById('recordModal').classList.add('show')}
 function editRecord(k){if(!requireEdit())return;editIndex=k;const i=people[activePerson].categories[editCategory][k];document.getElementById('recordHeading').textContent='Edit record';document.getElementById('recordScope').textContent=people[activePerson].person+' → '+categories.find(c=>c.id===editCategory).name+' → '+DATA_FILES[activePerson];['f0','f1','f2','f3'].forEach((x,j)=>document.getElementById(x).value=Array.isArray(i)?(i[j]||''):j===0?JSON.stringify(i):'');document.getElementById('recordStatus').textContent='';document.getElementById('recordModal').classList.add('show')}
